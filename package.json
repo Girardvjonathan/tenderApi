@@ -1,0 +1,27 @@
+{
+  "name": "tender_yaas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js --exec babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "node-schedule": "^1.1.1",
+    "xml2json": "^0.10.0",
+    "yaas.js": "^0.1.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-2": "^6.13.0",
+    "babel-register": "^6.14.0",
+    "mocha": "^3.0.2",
+    "nodemon": "^1.10.2"
+  }
+}
