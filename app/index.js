@@ -24,18 +24,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
     res.json({ message: 'Welcome to our API. Please be safe. Wear an helmet' });
 });
 
 // Get one tender
-router.get(config.getOneAddTendererEndpoint, function(req, res) {
+router.get(config.getOneAddTendererEndpoint, function(req, res, next) {
   // get tender with id = ?
     res.json(tender);
 });
 
 // Create a tender
-router.post(config.getAllCreateOneEndpoint, (req, res) => {
+router.post(config.getAllCreateOneEndpoint, (req, res, next) => {
   db.collection('tender').save(req.body, (err, result) => {
     if (err) res.sendStatus(400);
     res.sendStatus(200);
@@ -43,7 +43,7 @@ router.post(config.getAllCreateOneEndpoint, (req, res) => {
 });
 
 // Add a tenderer to a tender by its id
-router.post(config.getOneAddTendererEndpoint, (req, res) => {
+router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
   db.collection('tender').update(
      { _id: req.body.id },
      { $addToSet: req.body.tenderer }, (err, result) => {
@@ -53,7 +53,7 @@ router.post(config.getOneAddTendererEndpoint, (req, res) => {
 });
 
 // Add a tenderer to a tender
-router.post(config.getOneAddTendererEndpoint, (req, res) => {
+router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
   // Add tenderer for a tender with id = ?
 
   db.collection('').save(req.body, (err, result) => {
@@ -63,18 +63,18 @@ router.post(config.getOneAddTendererEndpoint, (req, res) => {
 });
 
 // GET all tenders
-router.get(config.getAllCreateOneEndpoint, function(req, res) {
+router.get(config.getAllCreateOneEndpoint, function(req, res, next) {
     res.json(tenders);
 });
 
 
 // Choose a tenderer for a tender
-router.get(config.tendererChooseEndpoint, function(req, res) {
+router.get(config.tendererChooseEndpoint, function(req, res, next) {
     res.json(tenders);
 });
 // Register API endpoints
 app.use('/api', router);
-app.use(function(req, res, next) {
+app.use(function(req, res, next, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
