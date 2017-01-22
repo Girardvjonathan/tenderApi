@@ -9,12 +9,13 @@ var fs = require("fs")
 // const { clientId, clientSecret, scopes, projectId } = config;
 // const yaas = new YaaS();
 // yaas.init(clientId, clientSecret, scopes, projectId);
+
+// CORS for localdev
 var cors = require('cors')
 // Mock data
 var tender = require('./mocks/tender.js').tender;
 var tenders = require('./mocks/tenders.js').tenders;
 var tenderer = require('./mocks/tenderers.js').tenderer;
-
 
 // Initialize and configure Express
 const port = process.env.PORT || 9002;
@@ -23,66 +24,53 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-
+// TODO try removing next
 router.get('/', function(req, res, next) {
     res.json({ message: 'Welcome to our API. Please be safe. Wear an helmet' });
 });
 
 // Get one tender
+// TODO
 router.get(config.getOneAddTendererEndpoint, function(req, res, next) {
   // get tender with id = ?
     res.json(tender);
 });
 
-// Create a tender
+// Create one tender
 router.post(config.getAllCreateOneEndpoint, (req, res, next) => {
+  req.body.tenderID = Math.random();//TODO real function for ID
   db.collection('tender').save(req.body, (err, result) => {
     if (err) res.sendStatus(400);
-    res.sendStatus(200);
+    res.send(result);
   })
 });
 
 // Add a tenderer to a tender by its id
+// TODO test this
 router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
   db.collection('tender').update(
      { _id: req.body.id },
      { $addToSet: req.body.tenderer }, (err, result) => {
       if (err) res.sendStatus(400);
-      res.sendStatus(200);
+      console.log(result);
+      res.send(result);
    })
 });
 
-// Add a tenderer to a tender
-router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
-  // Add tenderer for a tender with id = ?
-
-  db.collection('').save(req.body, (err, result) => {
-    if (err) res.sendStatus(400);
-    res.sendStatus(200);
-  })
-});
-
 // GET all tenders
+// TODO
 router.get(config.getAllCreateOneEndpoint, function(req, res, next) {
     res.json(tenders);
 });
 
-
 // Choose a tenderer for a tender
+// TODO put a flag on the tenderer and the tender
 router.get(config.tendererChooseEndpoint, function(req, res, next) {
     res.json(tenders);
 });
-//
-// var allowCrossDomain = function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'example.com');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//
-//     next();
-// }
+
 // Register API endpoints
 app.use('/api', router);
-// app.use(allowCrossDomain);
 
 // Database stuff
 const MongoClient = require('mongodb').MongoClient
@@ -93,7 +81,6 @@ MongoClient.connect('mongodb://conuhack-db:' + config.dbPassword +
   console.log("we are in");
 
   // Start the server
-
   app.listen(port);
   console.log('Serving on port ' + port);
 }
