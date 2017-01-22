@@ -10,7 +10,7 @@ exports.tender = {
 	"description": "Party hard at ConUHacks!",
 	"location": "1450 Guy Street, Montreal, QC, CA",
 	"musicalStyle": "Trans-Rock-Techno-Punk-Metal-Trash-Core",
-	"artistList":
+	"tenderer":
 	[
 		{
 			"name": "Maximus Primus",
