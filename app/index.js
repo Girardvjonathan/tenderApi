@@ -29,13 +29,13 @@ router.get('/', function(req, res) {
 });
 
 // Get one tender
-router.get(config.tenderEndpoint, function(req, res) {
+router.get(config.getOneAddTendererEndpoint, function(req, res) {
   // get tender with id = ?
     res.json(tender);
 });
 
 // Create a tender
-router.post(config.tenderEndpoint, (req, res) => {
+router.post(config.getAllCreateOneEndpoint, (req, res) => {
   db.collection('tender').save(req.body, (err, result) => {
     if (err) res.sendStatus(400);
     res.sendStatus(200);
@@ -53,7 +53,7 @@ router.post(config.tenderEndpoint, (req, res) => {
 });
 
 // Add a tenderer to a tender
-router.post(config.tendersEndpoint, (req, res) => {
+router.post(config.getOneAddTendererEndpoint, (req, res) => {
   // Add tenderer for a tender with id = ?
 
   db.collection('').save(req.body, (err, result) => {
@@ -63,7 +63,7 @@ router.post(config.tendersEndpoint, (req, res) => {
 });
 
 // GET all tenders
-router.get(config.tendersEndpoint, function(req, res) {
+router.get(config.getAllCreateOneEndpoint, function(req, res) {
     res.json(tenders);
 });
 
