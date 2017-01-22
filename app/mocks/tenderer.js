@@ -1,0 +1,1 @@
+exports.tenderer = {tenderer: "tenderer"} 

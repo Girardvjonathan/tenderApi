@@ -6,11 +6,15 @@ const config = {
     projectId: 'musiquify',
     applicationId: 'tender.nodejsclient',
 
-    // API Endpoint
-    // Get all submissionner or POST to subscribe has submission
-    tenderSubmissionnerEndpoint: '/tender/:idproduct/',
-    // POST choose submissionner
-    tenderChooseEndpoint: '/tender/:idproduct/:idcustomer',
+    // API Endpoint for tender CRUD
+    // Get all tenderer or POST to subscribe has submission
+    tenderEndpoint: '/tender/:idproduct/',
+    // POST choose tenderer
+    tendererEndpoint: '/tender/:idproduct/:idcustomer',
+    tendersEndpoint: '/tenders',
+    tenderEndpoint: '/tender',
 };
 
-export default config
+module.exports = {
+        config: config,
+};
