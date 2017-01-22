@@ -19,7 +19,7 @@ const config = {
 
 
     // DB
-    dbPassword: 'mypass',
+    dbPassword: 'MyDbConUhack',
 };
 
 module.exports = {
