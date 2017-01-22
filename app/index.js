@@ -5,6 +5,7 @@ var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var config = require('./config').config;
 var fs = require("fs")
+var ObjectId = require('mongodb').ObjectID;
 // Initialize the YaaS NodeJS client with the provided configuration
 // const { clientId, clientSecret, scopes, projectId } = config;
 // const yaas = new YaaS();
@@ -24,67 +25,64 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// TODO try removing next
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.json({ message: 'Welcome to our API. Please be safe. Wear an helmet' });
 });
 
 // Get one tender
-// TODO test this
-router.get(config.getOneAddTendererEndpoint, function(req, res, next) {
-    db.collection('tender').find(
-        { _id: req.body.id },
-        (err, result) => {
-              if (err) res.sendStatus(400);
-              console.log(result);
-              res.send(result);
-    })
+router.get(config.getOneAddTendererEndpoint, function(req, res) {
+  console.log(req.params.idproduct);
+    db.collection('tender').findOne(
+        { _id: new ObjectId(req.params.idproduct) }, function(err, data) {
+          console.log(data);
+          res.json(data);
+        });
 });
 
 // Create one tender
-router.post(config.getAllCreateOneEndpoint, (req, res, next) => {
+router.post(config.getAllCreateOneEndpoint, (req, res) => {
   req.body.tenderID = Math.random();//TODO real function for ID
   db.collection('tender').save(req.body, (err, result) => {
     if (err) res.sendStatus(400);
-    res.send(result);
+    res.json(result);
   })
 });
 
 // Add a tenderer to a tender by its id
-// TODO test this
-router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
+router.post(config.getOneAddTendererEndpoint, (req, res) => {
   db.collection('tender').update(
-     { _id: req.body.id },
-     { $addToSet: req.body.tenderer }, (err, result) => {
-      if (err) res.sendStatus(400);
-      console.log(result);
-      res.send(result);
-   })
+     { _id: new ObjectId(req.params.idproduct) },
+     { $push: {
+                "tenderer": req.body
+              }
+      },
+      (err, result) => {
+        if (err) res.sendStatus(400);
+        console.log(result);
+        res.json(result);
+     })
 });
 
 // GET all tenders
-// TODO test this
-router.get(config.getAllCreateOneEndpoint, function(req, res, next) {
-    db.collection('tender').find(
-    (err, result) => {
-          if (err) res.sendStatus(400);
-          console.log(result);
-          res.send(result);
-    })
-
+router.get(config.getAllCreateOneEndpoint, function(req, res) {
+  console.log("hello");
+    db.collection('tender').find({}).toArray(function(err, data) {
+      console.log(data);
+      res.json(data);
+    });
 });
 
 // Choose a tenderer for a tender
 // TODO put a flag on the tenderer and the tender
-router.get(config.tendererChooseEndpoint, function(req, res, next) {
+router.get(config.tendererChooseEndpoint, function(req, res) {
      db.collection('tender').update(
          { _id: req.body.id },
          { $addToSet: req.body.tenderer }, (err, result) => {
           if (err) res.sendStatus(400);
           console.log(result);
-          res.send(result);
+          res.json(result);
        })
-    res.json(tenders);
+    // res.json(tenders);
 });
 
 // Register API endpoints

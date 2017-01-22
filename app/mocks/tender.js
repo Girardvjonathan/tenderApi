@@ -21,6 +21,7 @@ exports.tender = {
 		},
 		{
 			"name": "Jo Techno",
+			"customerId": "123123",
 			"price": "705",
 			"description": "Rest API avec mean.",
 			"experience": "10",
