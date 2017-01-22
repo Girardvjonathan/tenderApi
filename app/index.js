@@ -4,6 +4,15 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
+// Database stuff
+const MongoClient = require('mongodb').MongoClient
+
+MongoClient.connect('link-to-mongodb', (err, database) => {
+  // ... start the server
+})
+
+
+
 var config = require('./config').config;
 var fs = require("fs")
 // Initialize the YaaS NodeJS client with the provided configuration
@@ -43,5 +52,12 @@ router.get(config.tendersEndpoint, function(req, res) {
 app.use('/api', router);
 
 // Start the server
-app.listen(port);
-console.log('Serving on port ' + port);
+const MongoClient = require('mongodb').MongoClient
+MongoClient.connect('mongodb://conuhack-db:MyDbConUhack@ds049466.mlab.com:49466/tender-conuhack', (err, database) => {
+  if (err) return console.log(err)
+  db = database
+  console.log("we are in");
+  app.listen(port);
+  console.log('Serving on port ' + port);
+}
+);
