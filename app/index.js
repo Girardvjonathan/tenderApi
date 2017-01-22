@@ -74,7 +74,11 @@ router.get(config.tendererChooseEndpoint, function(req, res) {
 });
 // Register API endpoints
 app.use('/api', router);
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Database stuff
 const MongoClient = require('mongodb').MongoClient
