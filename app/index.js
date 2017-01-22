@@ -60,12 +60,25 @@ router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
 // GET all tenders
 // TODO
 router.get(config.getAllCreateOneEndpoint, function(req, res, next) {
-    res.json(tenders);
+    db.collection('tender').find(
+    (err, result) => {
+          if (err) res.sendStatus(400);
+          console.log(result);
+          res.send(result);
+    })
+
 });
 
 // Choose a tenderer for a tender
 // TODO put a flag on the tenderer and the tender
 router.get(config.tendererChooseEndpoint, function(req, res, next) {
+     db.collection('tender').update(
+         { _id: req.body.id },
+         { $addToSet: req.body.tenderer }, (err, result) => {
+          if (err) res.sendStatus(400);
+          console.log(result);
+          res.send(result);
+       })
     res.json(tenders);
 });
 
