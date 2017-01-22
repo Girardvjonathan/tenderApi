@@ -30,10 +30,15 @@ router.get('/', function(req, res, next) {
 });
 
 // Get one tender
-// TODO
+// TODO test this
 router.get(config.getOneAddTendererEndpoint, function(req, res, next) {
-  // get tender with id = ?
-    res.json(tender);
+    db.collection('tender').find(
+        { _id: req.body.id },
+        (err, result) => {
+              if (err) res.sendStatus(400);
+              console.log(result);
+              res.send(result);
+    })
 });
 
 // Create one tender
@@ -58,7 +63,7 @@ router.post(config.getOneAddTendererEndpoint, (req, res, next) => {
 });
 
 // GET all tenders
-// TODO
+// TODO test this
 router.get(config.getAllCreateOneEndpoint, function(req, res, next) {
     db.collection('tender').find(
     (err, result) => {
