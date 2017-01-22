@@ -28,23 +28,23 @@ router.get('/', function(req, res) {
     res.json({ message: 'Welcome to our API. Please be safe. Wear an helmet' });
 });
 
-// Get one tinder
-router.get(config.tenderEndpoint, function(req, res) {
-  // get tinder with id = ?
+// Get one tender
+router.get(config.getOneAddTendererEndpoint, function(req, res) {
+  // get tender with id = ?
     res.json(tender);
 });
 
-// Create a tinder
-router.post(config.tenderEndpoint, (req, res) => {
+// Create a tender
+router.post(config.getAllCreateOneEndpoint, (req, res) => {
   db.collection('tender').save(req.body, (err, result) => {
     if (err) res.sendStatus(400);
     res.sendStatus(200);
   })
 });
 
-// Add a tinderer to a tinder
-router.post(config.tendersEndpoint, (req, res) => {
-  // Add tanderer for a tandder with id = ?
+// Add a tenderer to a tender
+router.post(config.getOneAddTendererEndpoint, (req, res) => {
+  // Add tenderer for a tender with id = ?
 
   db.collection('').save(req.body, (err, result) => {
     if (err) res.sendStatus(400);
@@ -52,13 +52,13 @@ router.post(config.tendersEndpoint, (req, res) => {
   })
 });
 
-// GET all tinders
-router.get(config.tendersEndpoint, function(req, res) {
+// GET all tenders
+router.get(config.getAllCreateOneEndpoint, function(req, res) {
     res.json(tenders);
 });
 
 
-// Choose a tinderer for a tinder
+// Choose a tenderer for a tender
 router.get(config.tendererChooseEndpoint, function(req, res) {
     res.json(tenders);
 });
