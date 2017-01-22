@@ -42,6 +42,17 @@ router.post(config.tenderEndpoint, (req, res) => {
   })
 });
 
+// Add a tenderer to a tender by its id
+router.post(config.tenderEndpoint, (req, res) => {
+  db.collection('tender').update(
+     { _id: req.body.id },
+     { $addToSet: req.body.tenderer }, (err, result) => {
+      if (err) res.sendStatus(400);
+      res.sendStatus(200);
+   })
+});
+
+
 // Add a tinderer to a tinder
 router.post(config.tendersEndpoint, (req, res) => {
   // Add tanderer for a tandder with id = ?
