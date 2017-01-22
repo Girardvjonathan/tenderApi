@@ -3,14 +3,13 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
-
 var config = require('./config').config;
 var fs = require("fs")
 // Initialize the YaaS NodeJS client with the provided configuration
 // const { clientId, clientSecret, scopes, projectId } = config;
 // const yaas = new YaaS();
 // yaas.init(clientId, clientSecret, scopes, projectId);
-
+var cors = require('cors')
 // Mock data
 var tender = require('./mocks/tender.js').tender;
 var tenders = require('./mocks/tenders.js').tenders;
@@ -22,6 +21,7 @@ const port = process.env.PORT || 9002;
 const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 
 router.get('/', function(req, res, next) {
@@ -72,13 +72,17 @@ router.get(config.getAllCreateOneEndpoint, function(req, res, next) {
 router.get(config.tendererChooseEndpoint, function(req, res, next) {
     res.json(tenders);
 });
+//
+// var allowCrossDomain = function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', 'example.com');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//
+//     next();
+// }
 // Register API endpoints
 app.use('/api', router);
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use(allowCrossDomain);
 
 // Database stuff
 const MongoClient = require('mongodb').MongoClient
