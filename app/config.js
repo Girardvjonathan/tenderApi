@@ -7,12 +7,19 @@ const config = {
     applicationId: 'tender.nodejsclient',
 
     // API Endpoint for tender CRUD
-    // Get all tenderer or POST to subscribe has submission
-    tenderEndpoint: '/tender/:idproduct/',
+    // GET ALL
+    // POST Create tender
+    getAllCreateOneEndpoint: '/tenders',
+    // GET a tender info including tenderer
+    // POST to subscribe a tenderers to a tender
+    getOneAddTendererEndpoint: '/tenders/:idproduct/',
+
     // POST choose tenderer
-    tendererEndpoint: '/tender/:idproduct/:idcustomer',
-    tendersEndpoint: '/tenders',
-    tenderEndpoint: '/tender',
+    tendererChooseEndpoint: '/tenders/:idproduct/:idcustomer',
+
+
+    // DB
+    dbPassword: 'mypass',
 };
 
 module.exports = {
