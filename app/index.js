@@ -43,7 +43,7 @@ router.post(config.getAllCreateOneEndpoint, (req, res) => {
 });
 
 // Add a tenderer to a tender by its id
-router.post(config.tenderEndpoint, (req, res) => {
+router.post(config.getOneAddTendererEndpoint, (req, res) => {
   db.collection('tender').update(
      { _id: req.body.id },
      { $addToSet: req.body.tenderer }, (err, result) => {
