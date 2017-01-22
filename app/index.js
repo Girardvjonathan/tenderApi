@@ -14,7 +14,7 @@ var fs = require("fs")
 // Mock data
 var tender = require('./mocks/tender.js').tender;
 var tenders = require('./mocks/tenders.js').tenders;
-var tenderer = require('./mocks/tenderer.js').tenderer;
+var tenderer = require('./mocks/tenderers.js').tenderer;
 
 
 // Initialize and configure Express
