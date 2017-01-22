@@ -4,15 +4,6 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
-// Database stuff
-const MongoClient = require('mongodb').MongoClient
-
-MongoClient.connect('link-to-mongodb', (err, database) => {
-  // ... start the server
-})
-
-
-
 var config = require('./config').config;
 var fs = require("fs")
 // Initialize the YaaS NodeJS client with the provided configuration
@@ -37,26 +28,54 @@ router.get('/', function(req, res) {
     res.json({ message: 'Welcome to our API. Please be safe. Wear an helmet' });
 });
 
+// Get one tinder
 router.get(config.tenderEndpoint, function(req, res) {
+  // get tinder with id = ?
     res.json(tender);
 });
 
-router.get(config.tendererEndpoint, function(req, res) {
-    res.json(tenderer);
+// Create a tinder
+router.post(config.tenderEndpoint, (req, res) => {
+  db.collection('tender').save(req.body, (err, result) => {
+    if (err) res.sendStatus(400);
+    res.sendStatus(200);
+  })
 });
 
+// Add a tinderer to a tinder
+router.post(config.tendersEndpoint, (req, res) => {
+  // Add tanderer for a tandder with id = ?
+
+  db.collection('').save(req.body, (err, result) => {
+    if (err) res.sendStatus(400);
+    res.sendStatus(200);
+  })
+});
+
+// GET all tinders
 router.get(config.tendersEndpoint, function(req, res) {
+    res.json(tenders);
+});
+
+
+// Choose a tinderer for a tinder
+router.get(config.tendererChooseEndpoint, function(req, res) {
     res.json(tenders);
 });
 // Register API endpoints
 app.use('/api', router);
 
-// Start the server
+
+// Database stuff
 const MongoClient = require('mongodb').MongoClient
-MongoClient.connect('mongodb://conuhack-db:MyDbConUhack@ds049466.mlab.com:49466/tender-conuhack', (err, database) => {
+MongoClient.connect('mongodb://conuhack-db:' + config.dbPassword +
+'@ds049466.mlab.com:49466/tender-conuhack', (err, database) => {
   if (err) return console.log(err)
   db = database
   console.log("we are in");
+
+  // Start the server
+
   app.listen(port);
   console.log('Serving on port ' + port);
 }
