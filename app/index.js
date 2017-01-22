@@ -52,9 +52,10 @@ router.post(config.getAllCreateOneEndpoint, (req, res) => {
 router.post(config.getOneAddTendererEndpoint, (req, res) => {
   db.collection('tender').update(
      { _id: new ObjectId(req.params.idproduct) },
-     { $push: {
-                "tenderer": req.body
-              }
+     { $push:
+       {
+        "tenderer": req.body
+       }
       },
       (err, result) => {
         if (err) res.sendStatus(400);
@@ -76,8 +77,8 @@ router.get(config.getAllCreateOneEndpoint, function(req, res) {
 // TODO put a flag on the tenderer and the tender
 router.get(config.tendererChooseEndpoint, function(req, res) {
      db.collection('tender').update(
-         { _id: req.body.id },
-         { $addToSet: req.body.tenderer }, (err, result) => {
+         { _id: new ObjectId(req.params.idproduct) },
+         { finish: true }, (err, result) => {
           if (err) res.sendStatus(400);
           console.log(result);
           res.json(result);
